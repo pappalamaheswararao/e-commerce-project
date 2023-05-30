@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>example</title>
+</head>
+<style>
+    *
+    {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body
+    {
+        width: 98vw;
+        height: 98vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+        background-color: yellow;
+        
+    }
+
+    #myid
+    {
+        width: 100%;
+        height: 100%;
+        /* display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap; */
+
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 20px;
+    }
+
+    #products {
+        border: 2px solid;
+        height: 500px;
+        width: 100%;
+    }
+   
+</style>
+<body>
+    <h1>API ADD TO CART</h1>
+    <div id="myid"></div>
+</body>
+<script>
+
+var url= "https://res.cloudinary.com/cliqtick/raw/upload/v1666847902/react-class/data_hfnwng.json";
+
+    fetch(url)
+    .then(res => (res.json()))
+    .then(res =>{
+        console.log(res);
+        var html =" ";
+        res.forEach(data =>{
+            html +=
+            `<div id="products">
+                <img id="product" src="${data.image.thumbnail}" alt="">
+                <div style = padding-left : "30px"><span style = "font-size:20px;">$</span><span id="price">${data.price}</span></div>
+                <p id="productname">${data.name}</p>
+                <p>${data.description}</p>
+                <p id="id1">${data.image.id}</p>
+                <div id="add-to-cart-btn">
+                    <input class ="add-btn" data-price=${data.price} id="add" type="button" value="add to cart">
+                </div>
+            </div>`
+
+            document.getElementById("myid").innerHTML=html;
+
+
+        });
+
+        let addBtn = document.querySelectorAll('.add-btn');
+            let count = 0;
+            addBtn.forEach(each => {
+                each.onclick = () => {
+                    // var prc=0;
+                    count=count+1;
+                    const parent = each.parentElement.children[0].dataset.price;
+                    var price = parent * count;
+                    // console.log(parent)
+                    const p = document.createElement("p");
+                    // p.innerText = price;
+                    each.parentElement.appendChild(p);
+                    alert("added to cart"+ " " + price);
+                }
+            })
+        })
+    </script>
+</html>
